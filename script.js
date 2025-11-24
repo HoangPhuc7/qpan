@@ -138,13 +138,13 @@ async function loadQuestionsFromTxt() {
 function renderQuestions() {
 	questionsContainer.innerHTML = "";
 
-	const labelLetters = ["A", "B", "C", "D"]; // vị trí hiển thị cố định
+	const labelLetters = ["A", "B", "C", "D"];
 
 	selectedQuestions.forEach((q, index) => {
 		const card = document.createElement("div");
 		card.className = "question-card";
 		card.dataset.questionId = q.id;
-		card.id = "question-" + (index + 1); // để scroll tới
+		card.id = "question-" + (index + 1);
 
 		const header = document.createElement("div");
 		header.className = "question-header";
@@ -153,17 +153,22 @@ function renderQuestions() {
 		title.innerHTML =
 			'<span class="question-index">Câu ' +
 			(index + 1) +
-			'.</span> <span class="question-text">' +
+			' </span><span class="question-text">' +
 			q.text +
 			"</span>";
 
 		header.appendChild(title);
 		card.appendChild(header);
 
+		// 👇 CHUYỂN “Chọn một đáp án đúng” LÊN ĐÂY
+		const footer = document.createElement("div");
+		footer.className = "question-footer";
+		footer.textContent = "Chọn một đáp án đúng";
+		card.appendChild(footer);
+
 		const optionsDiv = document.createElement("div");
 		optionsDiv.className = "options";
 
-		// entries = [['A','...'], ...], trộn nội dung
 		const entries = Object.entries(q.options);
 		const shuffledEntries = shuffleArray(entries);
 		let correctDisplayLabel = null;
@@ -174,23 +179,29 @@ function renderQuestions() {
 
 			const optionLabel = document.createElement("label");
 			optionLabel.className = "option";
-			optionLabel.dataset.label = displayLetter; // A/B/C/D hiển thị
+			optionLabel.dataset.label = displayLetter;
 
 			const radio = document.createElement("input");
 			radio.type = "radio";
 			radio.name = "q-" + index;
 			radio.value = displayLetter;
 
-			const labelSpan = document.createElement("span");
-			labelSpan.className = "option-label";
-			labelSpan.textContent = displayLetter + ".";
+			const inner = document.createElement("div");
+			inner.className = "option-inner";
 
-			const textSpan = document.createElement("span");
-			textSpan.textContent = " " + text;
+			const circle = document.createElement("div");
+			circle.className = "option-circle";
+			circle.textContent = displayLetter;
+
+			const textDiv = document.createElement("div");
+			textDiv.className = "option-text";
+			textDiv.textContent = text;
+
+			inner.appendChild(circle);
+			inner.appendChild(textDiv);
 
 			optionLabel.appendChild(radio);
-			optionLabel.appendChild(labelSpan);
-			optionLabel.appendChild(textSpan);
+			optionLabel.appendChild(inner);
 			optionsDiv.appendChild(optionLabel);
 
 			if (origLetter === q.correct) {
@@ -199,17 +210,13 @@ function renderQuestions() {
 		});
 
 		card.dataset.correct = correctDisplayLabel || q.correct || "";
-
-		card.appendChild(optionsDiv);
-
-		const footer = document.createElement("div");
-		footer.className = "question-footer";
-		footer.textContent = "Chọn một đáp án.";
-		card.appendChild(footer);
+		card.appendChild(optionsDiv); // 👈 options nằm sau dòng “Chọn một đáp án đúng”
 
 		questionsContainer.appendChild(card);
 	});
 }
+
+
 
 function buildNavGrid() {
 	navGrid.innerHTML = "";
@@ -355,14 +362,28 @@ questionsContainer.addEventListener("change", (e) => {
 	if (e.target && e.target.matches('input[type="radio"]')) {
 		const name = e.target.name; // q-0
 		const idx = parseInt(name.split("-")[1], 10);
+
+		// đánh dấu nav đã trả lời
 		const navItem = navGrid.querySelector(
 			'.nav-item[data-index="' + idx + '"]'
 		);
 		if (navItem) {
 			navItem.classList.add("answered");
 		}
+
+		// thêm class .selected cho option được chọn, bỏ ở các option khác cùng câu
+		const card = e.target.closest(".question-card");
+		if (card) {
+			const allOptions = card.querySelectorAll(".option");
+			allOptions.forEach((opt) => opt.classList.remove("selected"));
+			const chosen = e.target.closest(".option");
+			if (chosen) {
+				chosen.classList.add("selected");
+			}
+		}
 	}
 });
+
 
 // set timer ban đầu
 timerEl.textContent = formatTime(EXAM_DURATION_SECONDS);
