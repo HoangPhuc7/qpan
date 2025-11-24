@@ -1,7 +1,7 @@
 Câu 1: Bạo loạn lật đổ gồm có những hình thức nào: 
 A. Bạo loạn chính trị kết hợp với đấu tranh vũ trang và gây rối.
 B. Bạo loạn vũ trang kết hợp với bạo loạn chính trị và gây rối.
-*C. Bạo loạn chính trị, bạo loạn vũ trang, kết hợp bạo loạn chính trị với vũ trang[!i:$. 
+*C. Bạo loạn chính trị, bạo loạn vũ trang, kết hợp bạo loạn chính trị với vũ trang. 
 D. Bạo loạn chính trị kết hợp với gây rối và vũ trang.
 Câu 2: Quan hệ giữa “Diễn biến hoà bình” và bạo loạn lật đổ như thế nào? 
 A. Diễn biến hoà bình tạo thời cơ cho bạo loạn lật đổ.
@@ -60,12 +60,12 @@ C. Phá hoại nguyên tắc tập trung dân chủ của Đảng và Nhà nư�
 D. Phá hoại, xuyên tạc đường lối đổi mới của Đảng và Nhà nước ta.
 Câu 13: Thực hiện thủ đoạn “Diễn biến hoà bình” về văn hoá, kẻ thù tập trung tấn công :
 A. Vào truyền thống yêu nước và giá trị của văn hoá Việt Nam.
-B. Vào những sản phẩm văn hoá quý báu của dân tộc Việt Nam[!b!i:$. 
+B. Vào những sản phẩm văn hoá quý báu của dân tộc Việt Nam. 
 *C. Vào bản sắc văn hoá và giá trị văn hoá của dân tộc Việt Nam. 
-D. Vào nền văn hoá mang bản sắc dân tộc Việt Nam[!b!i:$. 
+D. Vào nền văn hoá mang bản sắc dân tộc Việt Nam. 
 Câu 14:  Các thế lực thù địch "Lợi dụng vấn đề tôn giáo – dân tộc" để chống phá ta như thế nào? 
 A. Lợi dụng chính sách bình đẳng, tự do dân chủ của ta
-*B. Lợi dụng chính sách tự do tôn giáo của Đảng, Nhà nước ta để truyền đạo trái phép[!i:$. 
+*B. Lợi dụng chính sách tự do tôn giáo của Đảng, Nhà nước ta để truyền đạo trái phép. 
 C. Lợi dụng những sai sót, sơ hở của Đảng và nhà nước ta để vu cáo.
 D. Triệt để lợi dụng, dân chủ, tự do của ta để tuyên truyền xuyên tạc.
 Câu 15: Thủ đoạn “Diễn biến hoà bình”, kẻ thù triệt để lợi dụng chính sách tự do tôn giáo của Đảng ta để :
@@ -127,7 +127,7 @@ Câu 26: Phòng chống chiến lược “DBHB”, bạo loạn lật đổ c�
 A. Toàn dân dưới sự lãnh đạo của Đảng Cộng sản Việt Nam.
 B. Toàn dân, toàn quân dưới sự lãnh đạo của Đảng Cộng sản Việt Nam.
 C. Toàn dân, lực lượng vũ trang dưới sự lãnh đạo của Đảng Cộng sản Việt Nam.
-*D. Toàn dân, của cả hệ thống chính trị dưới sự lãnh đạo của Đảng Cộng sản Việt Nam[!i:$. 
+*D. Toàn dân, của cả hệ thống chính trị dưới sự lãnh đạo của Đảng Cộng sản Việt Nam. 
 Câu 27: Nghị quyết 04 của BCHTW khóa XII chỉ ra bao nhiêu biểu hiện “tự diễn biến”, “tự chuyển hóa”? 
 A. 25 biểu hiện
 *B. 27 biểu hiện
@@ -239,9 +239,9 @@ A. Khi những nguồn gốc sinh ra tôn giáo mất đi
 C. Khi chế độ CNXH được xây dựng thành công trên phạm vi toàn thế giới.
 D. Tôn giáo không bao giờ mất đi.
 Câu 49: Xung đột giữa các tôn giáo thể hiện tính chất gì của tôn giáo? 
-A. Tính lịch sử .
-B. Tính quần chúng .
-*C. Tính chính trị .
+A. Tính lịch sử.
+B. Tính quần chúng.
+*C. Tính chính trị.
 D. Tất cả a, b,c đều đúng.	
 Câu 50: Giải quyết vấn đề tôn giáo phải gắn với quá trình nào? 
 A.  Xóa bỏ xã hội cũ, tiến hành đổi mới toàn diện xã hội
