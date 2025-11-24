@@ -21,13 +21,23 @@
         </div>
       </div>
       <div style="display:flex; align-items:center; gap:10px;">
-        <div>Thời gian còn lại: <span id="timer">00:00</span></div>
+        <div>Thời gian còn lại: <span id="timer">00:30:00</span></div>
         <button id="start-btn" class="btn-primary" disabled>Làm bài</button>
         <button id="submit-btn" class="btn-secondary" disabled>Nộp bài</button>
       </div>
     </div>
     <div id="result-box"></div>
     <div id="questions-container"></div>
+  </div>
+  <button id="nav-toggle" title="Danh sách câu hỏi">
+    <img src="icon_question.png" alt="Câu hỏi" />
+  </button>
+
+  <div id="question-nav-panel">
+    <div class="nav-panel-header">
+      <span>Danh sách câu hỏi</span>
+    </div>
+    <div id="question-nav-grid" class="nav-grid"></div>
   </div>
   <script src="script.js"></script>
 </body>

@@ -3,7 +3,7 @@ const EXAM_DURATION_SECONDS = 30 * 60; // 30 phút
 const QUESTION_COUNT = 25;
 const QUESTIONS_TXT_PATH = "questions.txt";
 
-// ====== STATE ======
+// ====== STATE & DOM ======
 let QUESTION_BANK = [];
 let selectedQuestions = [];
 let timerInterval = null;
@@ -18,10 +18,22 @@ const questionsContainer = document.getElementById("questions-container");
 const resultBox = document.getElementById("result-box");
 const loadStatus = document.getElementById("load-status");
 
+const navToggle = document.getElementById("nav-toggle");
+const navPanel = document.getElementById("question-nav-panel");
+const navGrid = document.getElementById("question-nav-grid");
+
+// ====== UTILS ======
 function formatTime(seconds) {
-    const m = Math.floor(seconds / 60);
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
     const s = seconds % 60;
-    return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+    return (
+        String(h).padStart(2, "0") +
+        " : " +
+        String(m).padStart(2, "0") +
+        " : " +
+        String(s).padStart(2, "0")
+    );
 }
 
 function shuffleArray(arr) {
@@ -41,94 +53,88 @@ function pickRandomQuestions(bank, count) {
 
 function cleanAzotaText(raw) {
     if (!raw) return "";
-    // Bỏ mấy tag [!b:$ ...], [!info:3], [!b!i:$.$] ...
+    // bỏ tag [!b:$ ...], [!info:3], ...
     let s = raw.replace(/\[!.*?\]/g, "");
-    // Bỏ ký tự $
+    // bỏ ký tự $
     s = s.replace(/\$/g, "");
-    // Gộp khoảng trắng
+    // gộp khoảng trắng
     s = s.replace(/\s+/g, " ");
     return s.trim();
 }
 
 async function loadQuestionsFromTxt() {
-    try {
-        const res = await fetch(QUESTIONS_TXT_PATH);
-        if (!res.ok) {
-            throw new Error("Không tải được " + QUESTIONS_TXT_PATH);
-        }
-        const text = await res.text();
-        const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
-
-        const questions = [];
-        let current = null;
-        let lastOptionLetter = null;
-
-        for (const lineRaw of lines) {
-            const line = lineRaw.trim();
-            if (!line) continue;
-
-            // Bắt đầu câu mới
-            const cauMatch = line.match(/^Câu\s+(\d+)\s*:?(.*)$/i);
-            if (cauMatch) {
-                if (current) {
-                    // chỉ push khi có đáp án đúng
-                    if (current.correct && Object.keys(current.options).length > 0) {
-                        questions.push(current);
-                    }
-                }
-                const qId = parseInt(cauMatch[1], 10);
-                const qTextRaw = cauMatch[2] || "";
-                current = {
-                    id: qId,
-                    text: cleanAzotaText(qTextRaw),
-                    options: {},
-                    correct: null,
-                };
-                lastOptionLetter = null;
-                continue;
-            }
-
-            if (!current) {
-                // Bỏ qua mọi thứ trước Câu 1
-                continue;
-            }
-
-            // Dòng đáp án: (*?)A. / B. / C. / D.
-            const optMatch = line.match(/^\*?([ABCD])\.\s*(.*)$/);
-            if (optMatch) {
-                const letter = optMatch[1];
-                const isCorrect = line.startsWith("*");
-                const optTextRaw = optMatch[2] || "";
-                const optText = cleanAzotaText(optTextRaw);
-                current.options[letter] = optText;
-                if (isCorrect) current.correct = letter;
-                lastOptionLetter = letter;
-                continue;
-            }
-
-            // Dòng tiếp tục (câu hỏi hoặc nối dài đáp án)
-            const extra = cleanAzotaText(line);
-            if (!extra) continue;
-
-            if (lastOptionLetter && current.options[lastOptionLetter]) {
-                current.options[lastOptionLetter] += " " + extra;
-            } else {
-                current.text = (current.text ? current.text + " " : "") + extra;
-            }
-        }
-
-        // push câu cuối cùng
-        if (current && current.correct && Object.keys(current.options).length > 0) {
-            questions.push(current);
-        }
-
-        return questions;
-    } catch (err) {
-        console.error(err);
-        throw err;
+    const res = await fetch(QUESTIONS_TXT_PATH);
+    if (!res.ok) {
+        throw new Error("Không tải được " + QUESTIONS_TXT_PATH);
     }
+    const text = await res.text();
+    const lines = text
+        .split(/\r?\n/)
+        .map((l) => l.trim())
+        .filter((l) => l.length > 0);
+
+    const questions = [];
+    let current = null;
+    let lastOptionLetter = null;
+
+    for (const lineRaw of lines) {
+        const line = lineRaw.trim();
+        if (!line) continue;
+
+        // bắt đầu câu mới
+        const cauMatch = line.match(/^Câu\s+(\d+)\s*:?(.*)$/i);
+        if (cauMatch) {
+            if (current) {
+                if (current.correct && Object.keys(current.options).length > 0) {
+                    questions.push(current);
+                }
+            }
+            const qId = parseInt(cauMatch[1], 10);
+            const qTextRaw = cauMatch[2] || "";
+            current = {
+                id: qId,
+                text: cleanAzotaText(qTextRaw),
+                options: {},
+                correct: null,
+            };
+            lastOptionLetter = null;
+            continue;
+        }
+
+        if (!current) continue;
+
+        // dòng đáp án
+        const optMatch = line.match(/^\*?([ABCD])\.\s*(.*)$/);
+        if (optMatch) {
+            const letter = optMatch[1];
+            const isCorrect = line.startsWith("*");
+            const optTextRaw = optMatch[2] || "";
+            const optText = cleanAzotaText(optTextRaw);
+            current.options[letter] = optText;
+            if (isCorrect) current.correct = letter;
+            lastOptionLetter = letter;
+            continue;
+        }
+
+        // dòng nối dài
+        const extra = cleanAzotaText(line);
+        if (!extra) continue;
+
+        if (lastOptionLetter && current.options[lastOptionLetter]) {
+            current.options[lastOptionLetter] += " " + extra;
+        } else {
+            current.text = (current.text ? current.text + " " : "") + extra;
+        }
+    }
+
+    if (current && current.correct && Object.keys(current.options).length > 0) {
+        questions.push(current);
+    }
+
+    return questions;
 }
 
+// ====== RENDER ======
 function renderQuestions() {
     questionsContainer.innerHTML = "";
 
@@ -138,6 +144,7 @@ function renderQuestions() {
         const card = document.createElement("div");
         card.className = "question-card";
         card.dataset.questionId = q.id;
+        card.id = "question-" + (index + 1); // để scroll tới
 
         const header = document.createElement("div");
         header.className = "question-header";
@@ -156,29 +163,27 @@ function renderQuestions() {
         const optionsDiv = document.createElement("div");
         optionsDiv.className = "options";
 
-        // Lấy danh sách đáp án gốc: [ ['A','...'], ['B','...'], ... ]
+        // entries = [['A','...'], ...], trộn nội dung
         const entries = Object.entries(q.options);
-        // Trộn thứ tự nội dung
         const shuffledEntries = shuffleArray(entries);
-
-        let correctDisplayLabel = null; // A/B/C/D nào là đúng sau khi trộn
+        let correctDisplayLabel = null;
 
         shuffledEntries.forEach(([origLetter, text], i) => {
             const displayLetter = labelLetters[i];
-            if (!displayLetter) return; // phòng hờ nếu thiếu
+            if (!displayLetter) return;
 
             const optionLabel = document.createElement("label");
             optionLabel.className = "option";
-            optionLabel.dataset.label = displayLetter; // dùng label hiển thị (A/B/C/D) để chấm
+            optionLabel.dataset.label = displayLetter; // A/B/C/D hiển thị
 
             const radio = document.createElement("input");
             radio.type = "radio";
             radio.name = "q-" + index;
-            radio.value = displayLetter; // user chọn A/B/C/D mới
+            radio.value = displayLetter;
 
             const labelSpan = document.createElement("span");
             labelSpan.className = "option-label";
-            labelSpan.textContent = displayLetter + "."; // luôn A. B. C. D.
+            labelSpan.textContent = displayLetter + ".";
 
             const textSpan = document.createElement("span");
             textSpan.textContent = " " + text;
@@ -188,20 +193,12 @@ function renderQuestions() {
             optionLabel.appendChild(textSpan);
             optionsDiv.appendChild(optionLabel);
 
-            // Nếu đáp án gốc đúng (origLetter == q.correct)
-            // thì vị trí mới đúng là displayLetter (A/B/C/D mới)
             if (origLetter === q.correct) {
                 correctDisplayLabel = displayLetter;
             }
         });
 
-        // Ghi đáp án đúng (theo label mới) lên thẻ câu hỏi để chấm điểm
-        if (correctDisplayLabel) {
-            card.dataset.correct = correctDisplayLabel;
-        } else {
-            // fallback, rất hiếm khi cần
-            card.dataset.correct = q.correct || "";
-        }
+        card.dataset.correct = correctDisplayLabel || q.correct || "";
 
         card.appendChild(optionsDiv);
 
@@ -214,6 +211,29 @@ function renderQuestions() {
     });
 }
 
+function buildNavGrid() {
+    navGrid.innerHTML = "";
+    if (!selectedQuestions.length) return;
+
+    selectedQuestions.forEach((q, index) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "nav-item";
+        btn.dataset.index = index;
+        btn.textContent = String(index + 1).padStart(2, "0");
+
+        btn.addEventListener("click", () => {
+            const card = document.getElementById("question-" + (index + 1));
+            if (card) {
+                card.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        });
+
+        navGrid.appendChild(btn);
+    });
+}
+
+// ====== TIMER & CHẤM ======
 function startTimer() {
     remainingSeconds = EXAM_DURATION_SECONDS;
     timerEl.textContent = formatTime(remainingSeconds);
@@ -247,16 +267,16 @@ function gradeExam(auto = false) {
 
     selectedQuestions.forEach((q, index) => {
         const card = questionsContainer.children[index];
-        const correctLabel = card.dataset.correct; // A/B/C/D sau khi random
+        const correctLabel = card.dataset.correct;
 
         const selector = 'input[name="q-' + index + '"]:checked';
         const checkedInput = document.querySelector(selector);
-        const userAns = checkedInput ? checkedInput.value : null; // A/B/C/D user chọn
+        const userAns = checkedInput ? checkedInput.value : null;
 
         const optionLabels = card.querySelectorAll(".option");
 
         optionLabels.forEach((lbl) => {
-            const optLabel = lbl.dataset.label; // A/B/C/D hiển thị
+            const optLabel = lbl.dataset.label;
             const radio = lbl.querySelector('input[type="radio"]');
             radio.disabled = true;
 
@@ -285,11 +305,8 @@ function gradeExam(auto = false) {
             ? ' <span class="warning">Hết thời gian nên hệ thống tự nộp bài.</span>'
             : "");
 
-
-    // Kéo lên đầu trang để thấy kết quả
     window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
 
 // ====== EVENTS ======
 startBtn.addEventListener("click", () => {
@@ -307,7 +324,12 @@ startBtn.addEventListener("click", () => {
 
     selectedQuestions = pickRandomQuestions(QUESTION_BANK, QUESTION_COUNT);
     renderQuestions();
+    buildNavGrid();
     startTimer();
+
+    // show nút tròn
+    navToggle.style.display = "flex";
+    navPanel.classList.remove("open");
 });
 
 submitBtn.addEventListener("click", () => {
@@ -318,7 +340,26 @@ submitBtn.addEventListener("click", () => {
     }
 });
 
-// Khởi tạo timer mặc định
+// toggle panel danh sách câu hỏi
+navToggle.addEventListener("click", () => {
+    navPanel.classList.toggle("open");
+});
+
+// khi chọn đáp án -> đánh dấu ô tương ứng màu xanh
+questionsContainer.addEventListener("change", (e) => {
+    if (e.target && e.target.matches('input[type="radio"]')) {
+        const name = e.target.name; // q-0
+        const idx = parseInt(name.split("-")[1], 10);
+        const navItem = navGrid.querySelector(
+            '.nav-item[data-index="' + idx + '"]'
+        );
+        if (navItem) {
+            navItem.classList.add("answered");
+        }
+    }
+});
+
+// set timer ban đầu
 timerEl.textContent = formatTime(EXAM_DURATION_SECONDS);
 
 // ====== LOAD QUESTION BANK ======
@@ -332,11 +373,11 @@ timerEl.textContent = formatTime(EXAM_DURATION_SECONDS);
             return;
         }
         loadStatus.textContent =
-            "Đã tải " + qs.length + " câu hỏi.";
+            "Đã tải " + qs.length + " câu hỏi. Bạn có thể bấm \"Làm bài\".";
         startBtn.disabled = false;
     } catch (e) {
         loadStatus.textContent =
-            "Lỗi khi tải questions.txt. Mở console để xem chi tiết.";
+            "Lỗi khi tải/parse de_thi/questions.txt. Mở console để xem chi tiết.";
         console.error(e);
     }
 })();
