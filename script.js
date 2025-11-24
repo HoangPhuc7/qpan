@@ -22,6 +22,8 @@ const navToggle = document.getElementById("nav-toggle");
 const navPanel = document.getElementById("question-nav-panel");
 const navGrid = document.getElementById("question-nav-grid");
 
+const metaEl = document.querySelector(".meta");
+
 // ====== UTILS ======
 function formatTime(seconds) {
     const h = Math.floor(seconds / 3600);
@@ -362,6 +364,25 @@ questionsContainer.addEventListener("change", (e) => {
 
 // set timer ban đầu
 timerEl.textContent = formatTime(EXAM_DURATION_SECONDS);
+
+
+// Thu gọn header khi cuộn xuống trong lúc đang làm bài
+window.addEventListener("scroll", () => {
+    if (!metaEl) return;
+
+    // Chỉ thu gọn khi ĐANG làm bài
+    if (!examStarted || examFinished) {
+        metaEl.classList.remove("compact");
+        return;
+    }
+
+    if (window.scrollY > 80) {
+        metaEl.classList.add("compact");
+    } else {
+        metaEl.classList.remove("compact");
+    }
+});
+
 
 // ====== LOAD QUESTION BANK ======
 (async () => {

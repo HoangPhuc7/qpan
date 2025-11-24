@@ -40,6 +40,42 @@ h1 {
     z-index: 100;
 }
 
+.meta-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.meta-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Header thu gọn khi cuộn xuống */
+.meta.compact {
+    padding: 6px 12px;
+}
+
+.meta.compact .meta-left {
+    display: none;
+    /* ẩn badge + load status */
+}
+
+.meta.compact .meta-right {
+    justify-content: space-between;
+    width: 100%;
+}
+
+.meta.compact .meta-timer {
+    font-size: 14px;
+}
+
+/* Ẩn nút Làm bài khi đã thu gọn (chỉ giữ Nộp bài + thời gian) */
+.meta.compact #start-btn {
+    display: none;
+}
+
+
 .badge {
     display: inline-block;
     padding: 4px 10px;
