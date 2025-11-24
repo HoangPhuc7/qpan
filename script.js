@@ -258,6 +258,9 @@ function gradeExam(auto = false) {
     submitBtn.disabled = true;
     startBtn.disabled = false;
 
+    navToggle.style.display = "none";
+    navPanel.classList.remove("open");
+
     if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;

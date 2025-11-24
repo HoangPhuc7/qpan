@@ -204,14 +204,15 @@ button:disabled {
     position: fixed;
     right: 24px;
     bottom: 24px;
-    width: 56px;
-    height: 56px;
+    width: 52px;
+    /* nhỏ hơn chút */
+    height: 52px;
     border-radius: 50%;
     border: none;
     background: #2563eb;
     color: #fff;
     display: none;
-    /* chỉ hiện khi đã bấm Làm bài */
+    /* chỉ hiện khi đang làm bài (JS bật lên) */
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.4);
@@ -220,13 +221,15 @@ button:disabled {
 }
 
 #nav-toggle img {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    /* icon luôn nhỏ hơn vòng tròn */
+    height: 24px;
+    max-width: 70%;
+    max-height: 70%;
     object-fit: contain;
-    /* nếu icon tối màu thì bật lên:
-  filter: invert(1);
-  */
+    display: block;
 }
+
 
 #question-nav-panel {
     position: fixed;
@@ -306,7 +309,16 @@ button:disabled {
     }
 
     #nav-toggle {
-        right: 16px;
-        bottom: 16px;
+        right: 12px;
+        /* sát góc hơn */
+        bottom: 12px;
+        width: 46px;
+        /* nhỏ hơn cho điện thoại */
+        height: 46px;
+    }
+
+    #nav-toggle img {
+        width: 20px;
+        height: 20px;
     }
 }
