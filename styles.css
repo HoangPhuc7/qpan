@@ -47,9 +47,13 @@ h1 {
 
 .meta-right {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    /* xếp dọc: timer trên, nút dưới */
+    align-items: flex-end;
+    /* căn về bên phải, giống format bạn viết */
+    gap: 6px;
 }
+
 
 /* Header thu gọn khi cuộn xuống */
 .meta.compact {
@@ -62,9 +66,13 @@ h1 {
 }
 
 .meta.compact .meta-right {
+    flex-direction: row;
+    /* hàng ngang: timer | Nộp bài */
+    align-items: center;
     justify-content: space-between;
     width: 100%;
 }
+
 
 .meta.compact .meta-timer {
     font-size: 14px;
@@ -129,6 +137,12 @@ button:disabled {
     background: #e5e7eb;
     color: #111827;
 }
+
+#submit-btn {
+    display: none;
+    /* ban đầu không thấy nút Nộp bài */
+}
+
 
 .btn-secondary:hover:not(:disabled) {
     background: #d1d5db;

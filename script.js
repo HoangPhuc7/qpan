@@ -324,6 +324,7 @@ startBtn.addEventListener("click", () => {
 
     startBtn.disabled = true;
     submitBtn.disabled = false;
+    submitBtn.style.display = "inline-flex";   // 👈 hiện nút Nộp bài sau khi bấm Làm bài
 
     selectedQuestions = pickRandomQuestions(QUESTION_BANK, QUESTION_COUNT);
     renderQuestions();
@@ -334,6 +335,7 @@ startBtn.addEventListener("click", () => {
     navToggle.style.display = "flex";
     navPanel.classList.remove("open");
 });
+
 
 submitBtn.addEventListener("click", () => {
     if (!examStarted || examFinished) return;
