@@ -2,46 +2,48 @@
 <html lang="vi">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Công tác Quốc Phòng và An Ninh</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css">
+	<meta charset="UTF-8" />
+	<title>Công tác Quốc Phòng và An Ninh</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-  <div class="container">
-    <h1>Công Tác Quốc Phòng Và An Ninh</h1>
-    <div class="meta">
-      <div class="meta-left">
-        <div class="badge">Số câu: 25 câu <br>
-          Thời gian làm bài: 30 phút <br>
-          Loại đề: Hỗn hợp</div>
-        <div id="load-status">
-          Đang tải ngân hàng câu hỏi từ <code>questions.txt</code>...
-        </div>
-      </div>
-      <div class="meta-right">
-        <div class="meta-timer">
-          Thời gian còn lại: <span id="timer">30:00</span>
-        </div>
-        <button id="start-btn" class="btn-primary" disabled>Làm bài</button>
-        <button id="submit-btn" class="btn-secondary" disabled>Nộp bài</button>
-      </div>
-    </div>
-    <div id="result-box"></div>
-    <div id="questions-container"></div>
-  </div>
-  <button id="nav-toggle" title="Danh sách câu hỏi">
-    <img src="icon_question.png" alt="Câu hỏi" />
-  </button>
+	<div class="container">
+		<h1>Công Tác Quốc Phòng Và An Ninh</h1>
+		<div class="meta">
+			<div class="meta-left">
+				<div class="badge">Số câu: 25 câu <br>
+					Thời gian làm bài: 30 phút <br>
+					Loại đề: Hỗn hợp</div>
+				<div id="load-status">
+					Đang tải ngân hàng câu hỏi từ <code>questions.txt</code>...
+				</div>
+			</div>
+			<div class="meta-right">
+				<div class="meta-timer">
+					Thời gian còn lại: <span id="timer">30:00</span>
+				</div>
+				<div class="meta-actions">
+					<button id="start-btn" class="btn-primary" disabled>Làm bài</button>
+					<button id="submit-btn" class="btn-secondary" disabled>Nộp bài</button>
+				</div>
+			</div>
+		</div>
+		<div id="result-box"></div>
+		<div id="questions-container"></div>
+	</div>
+	<button id="nav-toggle" title="Danh sách câu hỏi">
+		<img src="icon_question.png" alt="Câu hỏi" />
+	</button>
 
-  <div id="question-nav-panel">
-    <div class="nav-panel-header">
-      <span>Danh sách câu hỏi</span>
-    </div>
-    <div id="question-nav-grid" class="nav-grid"></div>
-  </div>
-  <script src="script.js"></script>
+	<div id="question-nav-panel">
+		<div class="nav-panel-header">
+			<span>Danh sách câu hỏi</span>
+		</div>
+		<div id="question-nav-grid" class="nav-grid"></div>
+	</div>
+	<script src="script.js"></script>
 </body>
 
 </html>
