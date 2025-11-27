@@ -375,9 +375,9 @@ C. Vi phạm hành chính và vi phạm nghiêm trọng
 *D. Vi phạm hành chính và vi phạm hình sự
 Câu 76: Thế nào là vi phạm hành chính?
 A. Là vi phạm do vô tình, khách quan gây ra
-B. Là hành vi có lỗi mà không phải là tội phạm
+*B. Là hành vi có lỗi mà không phải là tội phạm
 C. Là vi phạm không gây hậu quả nghiêm trọng
-*D. Là hành vi có lỗi nhưng do nguyên nhân khách quan
+D. Là hành vi có lỗi nhưng do nguyên nhân khách quan
 Câu 77: Vi phạm hình sự về bảo đảm trật tự, an toàn giao thông là gì?
 A. Là những hành vi thực hiện cố ý 
 B. Là những hành vi đặc biệt nguy hiểm 
@@ -708,3 +708,4 @@ A. Nguồn tài chính ngân sách
 B. Nguồn tài chính doanh nghiệp
 C. Nguồn tài chính xã hội hóa
 *D. Tất cả đều đúng
+
